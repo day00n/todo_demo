@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity // 이 클래스가 DB 테이블과 매핑됨을 의미
-@Getter // Getter 메서드 자동 생성
+@Getter // 모든 필드의 Getter 메서드 자동 생성
+@Setter // 모든 필드의 Setter 메서드 자동 생성
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor // 파라미터 없는 기본 생성자 자동 생성
 public class Todo {
 
@@ -22,4 +25,10 @@ public class Todo {
         this.title = title;
         this.completed = completed;
     }
+    
+    public Long getId() { return id; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public Boolean getCompleted() { return completed; }
+    public void setCompleted(Boolean completed) { this.completed = completed; }    
 }

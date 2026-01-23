@@ -23,9 +23,33 @@ public class TodoService {
                 .build();
         return todoRepository.save(todo);
     }
-
+    
+    @Transactional
+    public Todo toggleTodo(Long id){
+        //1. ID 데이터를 찾고 없으면 에러
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 항목이 없습니다. id=" + id));
+        
+        //2. 상태 변화
+        if(todo.getCompleted()){
+            todo.setCompleted(false);
+        }else{
+            todo.setCompleted(true);
+        }
+        return todo;
+    }
+    
     // 모든 할 일 조회
     public List<Todo> findAllTodos() {
         return todoRepository.findAll();
+    }
+    
+    @Transactional
+    public void deleteTodo(Long id){
+        // 1. 삭제 id 조회
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("삭제하려는 항목이 없습니다. id=" + id));
+        // 2. 삭제 
+        todoRepository.delete(todo);
     }
 }
